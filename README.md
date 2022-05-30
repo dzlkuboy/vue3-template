@@ -7,8 +7,8 @@
 
 
 ## 启动项目
-> git clone https://github.com/dzlkuboy/vue3-template.git
-> 
-> cd vue3-template
-> ni
-> nr
+> git clone https://github.com/dzlkuboy/vue3-template.git. 
+>   
+> cd vue3-template   
+> ni  
+> nr  
