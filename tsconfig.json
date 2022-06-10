@@ -22,6 +22,7 @@
     "skipLibCheck": true,
     "removeComments": false,
     "baseUrl": ".",
+    "types": ["@intlify/vite-plugin-vue-i18n/client"],
     "typeRoots": ["./node_modules/@types/", "./types"],
     "paths": {
       "@/*": ["src/*"]

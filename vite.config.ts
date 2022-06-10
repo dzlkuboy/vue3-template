@@ -20,6 +20,8 @@ import { resolve } from 'path';
 import styleImport, { VantResolve } from 'vite-plugin-style-import';
 
 import { viteMockServe } from 'vite-plugin-mock';
+
+import VueI18n from '@intlify/vite-plugin-vue-i18n';
 // https://vitejs.dev/config/
 export default ({ command }: ConfigEnv): UserConfigExport => {
   return {
@@ -34,7 +36,14 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
       AutoImport({
         include: [/\.[tj]sx?$/, /\.vue\??/],
         dts: './types/auto-imports.d.ts',
-        imports: ['vue', 'pinia', 'vue-router', 'vue/macros', '@vueuse/core'],
+        imports: [
+          'vue',
+          'pinia',
+          'vue-router',
+          'vue/macros',
+          '@vueuse/core',
+          'vue-i18n',
+        ],
         eslintrc: {
           enabled: false,
           globalsPropValue: true,
@@ -72,6 +81,11 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
           setupProdMockServer();
         `,
       }),
+      VueI18n({
+        runtimeOnly: true,
+        compositionOnly: true,
+        include: [resolve(__dirname, 'locales/**')],
+      }),
     ],
     resolve: {
       alias: [
@@ -84,9 +98,7 @@ export default ({ command }: ConfigEnv): UserConfigExport => {
     build: {
       rollupOptions: {
         output: {
-          manualChunks: {
-            buy: ['./src/views/CartView/index.vue'],
-          },
+          manualChunks: {},
         },
       },
     },

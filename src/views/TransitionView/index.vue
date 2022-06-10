@@ -16,10 +16,16 @@
     />
 
     <canvas ref="el" width="1000" height="600"></canvas>
+
+    <h1>{{ t('btn.text') }}</h1>
+    <p>{{ t('common.text') }}</p>
+    <button @click="toggleLocales()">切换语言</button>
   </div>
 </template>
 
 <script lang="ts">
+import { useI18n } from 'vue-i18n';
+
 export default defineComponent({
   setup() {
     const name = ref('');
@@ -61,21 +67,17 @@ export default defineComponent({
           x: WIDTH / 2,
           y: HEIGHT,
         },
-        length: 40,
+        length: 20,
         theta: -Math.PI / 2,
       });
     }
 
     const pendingTasks: Function[] = [];
 
-    watch(pendingTasks, (newVal) => {
-      console.log(newVal);
-    });
-
     function step(b: Branch, depth = 0) {
       const end = getEndPoint(b);
       drawBranch(b);
-      if (depth < 4 || Math.random() < 0.5) {
+      if (depth < 2 || Math.random() < 0.5) {
         pendingTasks.push(() =>
           step(
             {
@@ -88,7 +90,7 @@ export default defineComponent({
         );
       }
 
-      if (depth < 4 || Math.random() < 0.5) {
+      if (depth < 2 || Math.random() < 0.5) {
         pendingTasks.push(() =>
           step(
             {
@@ -138,9 +140,19 @@ export default defineComponent({
       lineTo(start, getEndPoint(b));
     }
 
+    const { t, availableLocales, locale } = useI18n();
+
+    const toggleLocales = () => {
+      const locales = availableLocales;
+      locale.value =
+        locales[(locales.indexOf(locale.value) + 1) % locales.length];
+    };
+
     return {
       name,
       el,
+      t,
+      toggleLocales,
     };
   },
 });
